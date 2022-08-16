@@ -24,12 +24,14 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth'])->prefix('chat')->name('chat.')->group(function() {
     Route::get('/', [ChatController::class, 'index'])->name('index');
+    Route::get('/show', [ChatController::class, 'join_chat'])->name('show');
     Route::get('/create', [ChatController::class, 'create'])->name('create');
     Route::post('/create', [ChatController::class, 'store'])->name('store');
-    Route::put('/update', [ChatController::class, 'update'])->name('update');
-    Route::post('/join', [ChatController::class, 'join'])->name('join');
-    Route::post('/leave', [ChatController::class, 'leave'])->name('leave');
-    Route::delete('/delete', [ChatController::class, 'destroy'])->name('destroy');
+    Route::put('/{room}/update', [ChatController::class, 'update'])->name('update');
+    Route::delete('/{room}/delete', [ChatController::class, 'destroy'])->name('destroy');
+
+    Route::get('/get_messages', [ChatController::class, 'getMessages']);
+    Route::post('/push', [ChatController::class, 'push_message'])->name('push');
 });
 
 require __DIR__.'/auth.php';

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChatPusher;
+use App\Events\PushMessage;
+use App\Models\Message;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
@@ -11,6 +15,11 @@ class ChatController extends Controller
     {
         $rooms = Room::all();
         return view('chat.index', compact('rooms'));
+    }
+
+    public static function join_chat()
+    {
+        return view('chat.chat');
     }
 
     public function create()
@@ -38,16 +47,21 @@ class ChatController extends Controller
         ->with('alert', 'ルームを削除しました。');
     }
 
-    public function join_room()
+    public static function push_message(Request $request)
     {
-        return redirect()->route('chat.index')
-        ->with('message', 'ルームに参加しました。');
+        $message = Message::create([
+            'user_id' => Auth::id(),
+            'room_id' => 1,
+            'message' => $request->text
+        ]);
+
+        event(new PushMessage($message));
     }
 
-    public function leave_room()
+    public static function getMessages()
     {
-        return redirect()->route('chat.index')
-        ->with('message', 'ルームを退会しました。');
+        $messages = Message::with('user')->get();
+        return $messages;
     }
 
 }
