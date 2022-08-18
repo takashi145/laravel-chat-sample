@@ -7,7 +7,7 @@
                         <div class="container px-3 mx-auto">
                             <div class="flex flex-wrap -m-4">
                                 @foreach($rooms as $room)
-                                <div class="p-4 md:w-1/2 lg:w-1/3">
+                                <a href="{{ route('chat.show', ['room' => $room]) }}" class="p-4 md:w-1/2 lg:w-1/3">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
                                         <img class="lg:h-48 md:h-36 w-full object-cover object-center" src="https://dummyimage.com/720x400" alt="blog">
                                         <div class="p-6">
@@ -22,7 +22,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                                 @endforeach
                             </div>
                         </div>
@@ -30,5 +30,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="fixed bottom-0 right-0 m-8">
+        <a href="{{ route('chat.create') }}" class="text-white bg-indigo-400 hover:bg-indigo-500 p-3 rounded">チャットルームの作成</a>
     </div>
 </x-app-layout>

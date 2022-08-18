@@ -15,7 +15,7 @@
                         
                         <div class="my-3 text-center">
                             <input type="text" x-model="text" class="border">
-                            <button x-on:click="postMessage" class="push_message text-white bg-indigo-400 hover:bg-indigo-500 py-2 px-3 rounded">送信</button>
+                            <button x-on:click="postMessage()" class="push_message text-white bg-indigo-400 hover:bg-indigo-500 py-2 px-3 rounded">送信</button>
                         </div>
                     </div>
                 </div>
@@ -23,20 +23,22 @@
         </div>
     </div>
     <script>
+        const room_id = '{{ $room_id }}';
+
         const chat = () => {
             return {
                 messages: [],
                 text: '',
 
                 postMessage() {
-                    axios.post('/chat/push', {'text': this.text})
+                    axios.post('/chat/'+room_id+'/push', {'text': this.text})
                         .then((res) => {
                             this.text = "";
                         })
                 },
 
                 getMessages() {
-                    axios.get('/chat/get_messages')
+                    axios.get('/chat/'+room_id+'/get_messages')
                         .then((res) => {
                             this.messages = res.data;
                         })

@@ -17,9 +17,11 @@ class ChatController extends Controller
         return view('chat.index', compact('rooms'));
     }
 
-    public static function join_chat()
+    public static function join(Room $room)
     {
-        return view('chat.chat');
+        $room_id = $room->id;
+        $messages = $room->messages;
+        return view('chat.chat', compact('room_id', 'messages'));
     }
 
     public function create()
@@ -47,11 +49,11 @@ class ChatController extends Controller
         ->with('alert', 'ルームを削除しました。');
     }
 
-    public static function push_message(Request $request)
+    public static function push_message(Request $request, Room $room)
     {
         $message = Message::create([
             'user_id' => Auth::id(),
-            'room_id' => 1,
+            'room_id' => $room->id,
             'message' => $request->text
         ]);
 
