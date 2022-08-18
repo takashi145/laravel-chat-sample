@@ -9,17 +9,20 @@
                                 @foreach($rooms as $room)
                                 <a href="{{ route('chat.show', ['room' => $room]) }}" class="p-4 md:w-1/2 lg:w-1/3">
                                     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
-                                        <img class="lg:h-48 md:h-36 w-full object-cover object-center" src="https://dummyimage.com/720x400" alt="blog">
                                         <div class="p-6">
-                                            <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{ $room->name }}</h1>
-                                            <div class="flex items-center flex-wrap ">
-                                                <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                                                    
-                                                </span>
-                                                <span class="text-gray-400 inline-flex items-center leading-none text-sm">
-                                                    
+                                            <h1 class="title-font text-2xl font-medium text-gray-900 mb-3">{{ $room->name }}</h1>
+                                            <div class="px-3">
+                                                <span class="text-gray-800 inline-flex items-center leading-none text-sm">
+                                                    {{ $room->description }}
                                                 </span>
                                             </div>
+                                            @if(Auth::id() === $room->user_id)
+                                            <form action="{{ route('chat.delete', ['room' => $room]) }}" method="post" class="text-right mt-3">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="text-red-400 hover:text-red-500">削除</button>
+                                            </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </a>

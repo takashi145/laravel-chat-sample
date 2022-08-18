@@ -31,22 +31,19 @@ class ChatController extends Controller
 
     public function store(Request $request)
     {
-        Room::create($request);
+        Room::create([
+            'user_id' => Auth::id(),
+            'name' => $request->name,
+            'description' => $request->description
+        ]);
         return redirect()->route('chat.index')
         ->with('message', 'ルームを作成しました。');
-    }
-
-    public function update(Request $request, Room $room)
-    {
-        return redirect()->route('chat.index')
-        ->with('message', 'ルームを更新しました。');
     }
 
     public function destroy(Room $room)
     {
         $room->delete();
-        return redirect()->route('chat.index')
-        ->with('alert', 'ルームを削除しました。');
+        return redirect()->route('chat.index');
     }
 
     public static function push_message(Request $request, Room $room)
@@ -60,9 +57,9 @@ class ChatController extends Controller
         event(new PushMessage($message));
     }
 
-    public static function getMessages()
+    public static function getMessages(Room $room)
     {
-        $messages = Message::with('user')->get();
+        $messages = $room->messages()->with('user')->get();
         return $messages;
     }
 

@@ -26,9 +26,8 @@ Route::middleware(['auth'])->prefix('chat')->name('chat.')->group(function() {
     Route::get('/', [ChatController::class, 'index'])->name('index');
     Route::get('/create', [ChatController::class, 'create'])->name('create');
     Route::get('/{room}', [ChatController::class, 'join'])->name('show');
-    Route::post('/create', [ChatController::class, 'store'])->name('store');
-    Route::put('/{room}/update', [ChatController::class, 'update'])->name('update');
-    Route::delete('/{room}/delete', [ChatController::class, 'destroy'])->name('destroy');
+    Route::post('/store', [ChatController::class, 'store'])->name('store');
+    Route::delete('/{room}/delete', [ChatController::class, 'destroy'])->name('delete');
 
     Route::get('/{room}/get_messages', [ChatController::class, 'getMessages']);
     Route::post('/{room}/push', [ChatController::class, 'push_message'])->name('push');

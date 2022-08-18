@@ -18,6 +18,12 @@ class RoomSeeder extends Seeder
         Room::create([
             'user_id' => 1,
             'name' => 'test_room',
+            'description' => 'testtest'
+        ]);
+        Room::create([
+            'user_id' => 1,
+            'name' => 'test_room2',
+            'description' => 'testtest'
         ]);
     }
 }
