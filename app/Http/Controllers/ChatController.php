@@ -16,11 +16,10 @@ class ChatController extends Controller
         return view('chat.index', compact('rooms'));
     }
 
-    public static function join(Room $room)
+    public static function show(Room $room)
     {
         $room_id = $room->id;
-        $messages = $room->messages;
-        return view('chat.chat', compact('room_id', 'messages'));
+        return view('chat.chat', compact('room_id'));
     }
 
     public function create()
@@ -45,22 +44,20 @@ class ChatController extends Controller
         return redirect()->route('chat.index');
     }
 
-    public static function push_message(Request $request, Room $room)
+    public static function pushMessage(Request $request, Room $room)
     {
         $message = Message::create([
             'user_id' => Auth::id(),
             'room_id' => $room->id,
             'message' => $request->text
-        ]);
-
-        $message = $message->load('user');
+        ])->load('user');
 
         event(new PushMessage($message));
     }
 
     public static function getMessages(Room $room)
     {
-        $messages = $room->messages()->with('user')->get();
+        $messages = $room->messages()->with('user')->orderBy('id', 'desc')->get();
         return $messages;
     }
 

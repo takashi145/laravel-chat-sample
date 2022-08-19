@@ -1,14 +1,18 @@
 <x-app-layout>
     <div class="py-8">
         <div class="mx-auto px-3">
+            <div class="text-right my-4 mx-12">
+                <a href="{{ route('chat.create') }}" class="text-white bg-indigo-400 hover:bg-indigo-500 p-3 rounded">チャットルームの作成</a>
+            </div>
             <div class="overflow-hidden sm:rounded-lg">
                 <div class="p-6">
+                    
                     <section class="text-gray-600 body-font">
                         <div class="container px-3 mx-auto">
                             <div class="flex flex-wrap -m-4">
                                 @foreach($rooms as $room)
                                 <a href="{{ route('chat.show', ['room' => $room]) }}" class="p-4 md:w-1/2 lg:w-1/3">
-                                    <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg">
+                                    <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden shadow-lg hover:ring-2">
                                         <div class="p-6">
                                             <h1 class="title-font text-2xl font-medium text-gray-900 mb-3">{{ $room->name }}</h1>
                                             <div class="px-3">
@@ -33,8 +37,5 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="fixed bottom-0 right-0 m-8">
-        <a href="{{ route('chat.create') }}" class="text-white bg-indigo-400 hover:bg-indigo-500 p-3 rounded">チャットルームの作成</a>
     </div>
 </x-app-layout>
