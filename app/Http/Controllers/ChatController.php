@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ChatPusher;
 use App\Events\PushMessage;
 use App\Models\Message;
 use App\Models\Room;
@@ -53,6 +52,8 @@ class ChatController extends Controller
             'room_id' => $room->id,
             'message' => $request->text
         ]);
+
+        $message = $message->load('user');
 
         event(new PushMessage($message));
     }

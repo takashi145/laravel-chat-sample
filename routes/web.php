@@ -18,10 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 Route::middleware(['auth'])->prefix('chat')->name('chat.')->group(function() {
     Route::get('/', [ChatController::class, 'index'])->name('index');
     Route::get('/create', [ChatController::class, 'create'])->name('create');

@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <div x-data="chat" x-init="getMessages()" @postMessage.window="getMessages()" class="border">
+                    <div x-data="chat" x-init="getMessages()" @postMessage.window="pushMessage($event.detail)" class="border">
                         <ul>
                             <template x-for="message in messages">
                                 <div class="border-b-2 m-2">
@@ -15,7 +15,7 @@
                         
                         <div class="my-3 text-center">
                             <input type="text" x-model="text" class="border">
-                            <button x-on:click="postMessage()" class="push_message text-white bg-indigo-400 hover:bg-indigo-500 py-2 px-3 rounded">送信</button>
+                            <button x-on:click="add()" class="push_message text-white bg-indigo-400 hover:bg-indigo-500 py-2 px-3 rounded">送信</button>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                 messages: [],
                 text: '',
 
-                postMessage() {
+                add() {
                     axios.post('/chat/'+room_id+'/push', {'text': this.text})
                         .then((res) => {
                             this.text = "";
@@ -43,6 +43,10 @@
                             this.messages = res.data;
                         })
                 },
+
+                pushMessage(message) {
+                    this.messages.push(message);
+                }
             }
         }
     </script>

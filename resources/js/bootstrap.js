@@ -30,9 +30,9 @@ window.Echo = new Echo({
     forceTLS: true
 });
 
-window.Echo.channel('ChatChannel')
+window.Echo.channel(`ChatChannel`)
   .listen('PushMessage', (e) => {
-      console.log(e);
-      const event = new CustomEvent('postmessage');
+      console.log(e.message);
+      const event = new CustomEvent('postmessage', {detail: e.message});
       window.dispatchEvent(event);
   });
